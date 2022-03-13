@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "372372641087",
+    "project_id": "read-with-arti",
+    "storage_bucket": "read-with-arti.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:372372641087:android:84b6ed395ffc71e9642f8a",
+        "android_client_info": {
+          "package_name": "com.example.readwitharti"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "372372641087-uokhs8i2gag8k38u4nt9r91oknt7nnio.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1MHtn1lUo8cx2emwJVnhB1YjYN1CanIw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "372372641087-uokhs8i2gag8k38u4nt9r91oknt7nnio.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
