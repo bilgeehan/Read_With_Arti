@@ -46,7 +46,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/editTextMail"
         android:layout_width="253dp"
         android:layout_height="55dp"
         android:background="@drawable/white_button"
@@ -63,7 +63,7 @@
         app:layout_constraintVertical_bias="0.633" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/editTextPassword"
         android:layout_width="251dp"
         android:layout_height="52dp"
         android:background="@drawable/white_button"
@@ -84,6 +84,7 @@
         android:layout_width="119dp"
         android:layout_height="45dp"
         android:background="@drawable/black_button"
+        android:onClick="onClickLogin"
         android:text="Login"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
