@@ -1,5 +1,6 @@
 package com.example.readwitharti;
 
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -31,8 +33,6 @@ public class LoginActivity extends AppCompatActivity {
     public void onClickLogin(View view) {
         String stringMail = mail.getText().toString();
         String stringPassword = password.getText().toString();
-        System.out.println(stringMail);
-        System.out.println(stringPassword);
         mAuth.signInWithEmailAndPassword(stringMail, stringPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
