@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
                     Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(loginIntent);
                 } else {
-                    Toast.makeText(LoginActivity.this, "!!!ERROR!!! Please try again later", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, " Please check your informations and try again later", Toast.LENGTH_SHORT).show();
                 }
             }
         });
