@@ -51,7 +51,7 @@ public class SignUpActivity extends AppCompatActivity {
                             Intent registerIntent = new Intent(SignUpActivity.this, LoginActivity.class);
                             startActivity(registerIntent);
                         } else {
-                            Toast.makeText(SignUpActivity.this, "User cannot be created.Please try again", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUpActivity.this, "User cannot be created. Please try again", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
