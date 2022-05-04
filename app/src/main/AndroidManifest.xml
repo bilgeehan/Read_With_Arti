@@ -11,28 +11,28 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
             android:name=".DeleteStoryActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".AddStoryActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".StoryActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".SearchActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ProfileActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".AdminActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".SplashScreen"
             android:exported="true" />
         <activity
             android:name=".ForgotPassword"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".SignUpActivity"
             android:exported="true" />
