@@ -7,4 +7,27 @@
     android:background="#DF8ED9"
     tools:context=".DeleteStoryActivity">
 
+    <ListView
+        android:id="@+id/listActivities"
+        android:layout_width="411dp"
+        android:layout_height="634dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="170dp"
+        android:layout_height="42dp"
+        android:background="@drawable/black_button"
+        android:onClick="onClickDeleteActivityButton"
+        android:text="Delete "
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listActivities" />
 </androidx.constraintlayout.widget.ConstraintLayout>
