@@ -8,6 +8,20 @@
     tools:context=".AdminActivity">
 
     <Button
+        android:id="@+id/button8"
+        android:layout_width="155dp"
+        android:layout_height="46dp"
+        android:background="@drawable/white_button"
+        android:onClick="onAddAdmin"
+        android:text="ADD ADMIN"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.113"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.737" />
+
+    <Button
         android:id="@+id/button5"
         android:layout_width="155dp"
         android:layout_height="46dp"
@@ -18,7 +32,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.82" />
+        app:layout_constraintVertical_bias="0.839" />
 
     <ImageView
         android:id="@+id/imageView11"
@@ -54,7 +68,8 @@
         android:text="Add Story"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.902"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.671" />
+        app:layout_constraintVertical_bias="0.737" />
 </androidx.constraintlayout.widget.ConstraintLayout>

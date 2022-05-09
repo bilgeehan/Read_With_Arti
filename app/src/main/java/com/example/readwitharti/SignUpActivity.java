@@ -13,6 +13,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class SignUpActivity extends AppCompatActivity {
@@ -21,16 +23,20 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText email;
     private EditText password;
     private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         name = (EditText) findViewById(R.id.inputName);
         date = (EditText) findViewById(R.id.inputDate);
         email = (EditText) findViewById(R.id.inputMail);
         password = (EditText) findViewById(R.id.inputPassword);
+
     }
 
     public void onClickButton(View view) {
@@ -47,6 +53,10 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            mDatabase.child("Users").child(mAuth.getUid()).child("name").setValue(stringName);
+                            mDatabase.child("Users").child(mAuth.getUid()).child("date").setValue(stringDate);
+                            mDatabase.child("Users").child(mAuth.getUid()).child("mail").setValue(stringEmail);
+
                             Toast.makeText(SignUpActivity.this, "User successfully created", Toast.LENGTH_SHORT).show();
                             Intent registerIntent = new Intent(SignUpActivity.this, LoginActivity.class);
                             startActivity(registerIntent);

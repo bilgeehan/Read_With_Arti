@@ -59,7 +59,7 @@ public class AddStoryActivity extends AppCompatActivity {
                     if (task.isSuccessful() && isPhotoAdded) {
                         uploadPicture();
                     } else {
-                        Toast.makeText(AddStoryActivity.this, "Something went wrong. Please try again", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddStoryActivity.this, "!!ERROR!!", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -86,28 +86,28 @@ public class AddStoryActivity extends AppCompatActivity {
     }
 
     private void uploadPicture() {
-        final ProgressDialog pd = new ProgressDialog(AddStoryActivity.this);
-        pd.setTitle("Uploading Image...");
-        pd.show();
+        final ProgressDialog progress = new ProgressDialog(AddStoryActivity.this);
+        progress.setTitle("Image Uploading...");
+        progress.show();
 
-        //  final String randomKey = UUID.randomUUID().toString();
+        //   String random = UUID.randomUUID().toString();
         StorageReference riversRef = storageReference.child("storyImages/" + title.getText().toString());
         riversRef.putFile(imageUrl).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                 if (task.isSuccessful()) {
-                    pd.dismiss();
+                    progress.dismiss();
                     Snackbar.make(findViewById(android.R.id.content), "Story Uploaded", Snackbar.LENGTH_LONG).show();
                 } else {
-                    pd.dismiss();
+                    progress.dismiss();
                     Toast.makeText(AddStoryActivity.this, "Failed to Upload Picture.", Toast.LENGTH_LONG).show();
                 }
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                double percentProgress = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
-                pd.setMessage("Progress :" + (int) percentProgress + "%");
+                double progressNum = (100.00 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount());
+                progress.setMessage("Progress :" + (int) progressNum + "%");
             }
         });
     }
