@@ -3,11 +3,13 @@ package com.example.readwitharti;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -75,20 +77,13 @@ public class EditStoryActivity extends AppCompatActivity {
 
     }
     public void onClickEditActivityButton(View view) {
-        mDatabase.child("Stories").child(arrKeys.get(chosenPosition)).removeValue()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (!task.isSuccessful()) {
-                            Toast.makeText(EditStoryActivity.this, "Something went wrong. Please try again", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-        if (arrKeys.size() <= 1 && arrValues.size() <= 1) {
-            adapter.clear();
+        Intent intent=new Intent(EditStoryActivity.this,AdminEditStory.class);
+        intent.putExtra("Title",arrKeys.get(chosenPosition));
+        intent.putExtra("Stories", arrValues.get(chosenPosition));
+        startActivity(intent);
+
         }
     }
 
 
 
-}
