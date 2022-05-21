@@ -18,6 +18,10 @@ public class AdminActivity extends AppCompatActivity {
         Intent addStoryIntent = new Intent(AdminActivity.this, AddStoryActivity.class);
         startActivity(addStoryIntent);
     }
+    public void onClickEditStory(View view){
+        Intent editStoryIntent= new Intent(AdminActivity.this, EditStoryActivity.class);
+        startActivity(editStoryIntent);
+    }
 
     public void onClickDeleteStory(View view) {
         Intent deleteStoryIntent = new Intent(AdminActivity.this, DeleteStoryActivity.class);
