@@ -77,10 +77,10 @@ public class EditStoryActivity extends AppCompatActivity {
 
     }
     public void onClickEditActivityButton(View view) {
-        Intent intent=new Intent(EditStoryActivity.this,AdminEditStory.class);
+       /* Intent intent=new Intent(EditStoryActivity.this,AdminEditStory.class);
         intent.putExtra("Title",arrKeys.get(chosenPosition));
         intent.putExtra("Stories", arrValues.get(chosenPosition));
-        startActivity(intent);
+        startActivity(intent);*/
 
         }
     }
