@@ -2,12 +2,13 @@ package com.example.readwitharti;
 
 import android.graphics.Bitmap;
 import android.media.Image;
+import android.net.Uri;
 import android.widget.ImageView;
 
 import java.io.File;
 
 public class Story {
-    private Bitmap coverPhoto;
+    private String coverPhoto;
     private String title;
     private String story;
 
@@ -19,11 +20,11 @@ public class Story {
         this.story = story;
     }
 
-    public Bitmap getCoverPhoto() {
+    public String getCoverPhoto() {
         return coverPhoto;
     }
 
-    public void setCoverPhoto(Bitmap coverPhoto) {
+    public void setCoverPhoto(String coverPhoto) {
         this.coverPhoto = coverPhoto;
     }
 
