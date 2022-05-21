@@ -28,7 +28,6 @@ public class EditStoryActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
     private ArrayList<String> arrKeys;
-    private ArrayList<String> arrValues;
     private ArrayAdapter<String> adapter;
     private int chosenPosition;
     private ListView list;
@@ -40,7 +39,6 @@ public class EditStoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_story);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         arrKeys = new ArrayList<>();
-        arrValues = new ArrayList<>();
         chosenPosition = 0;
         mAuth = FirebaseAuth.getInstance();
         list = (ListView) findViewById(R.id.listview3);
@@ -54,7 +52,7 @@ public class EditStoryActivity extends AppCompatActivity {
                     list.setAdapter(adapter);
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         arrKeys.add(String.valueOf(dataSnapshot.getKey()));
-                        arrValues.add(String.valueOf(dataSnapshot.getValue()));
+
 
                     }
                     System.out.println(arrKeys.get(1));
@@ -77,10 +75,9 @@ public class EditStoryActivity extends AppCompatActivity {
 
     }
     public void onClickEditActivityButton(View view) {
-       /* Intent intent=new Intent(EditStoryActivity.this,AdminEditStory.class);
+        Intent intent=new Intent(EditStoryActivity.this,AdminEditStory.class);
         intent.putExtra("Title",arrKeys.get(chosenPosition));
-        intent.putExtra("Stories", arrValues.get(chosenPosition));
-        startActivity(intent);*/
+        startActivity(intent);
 
         }
     }
