@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +13,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
@@ -29,9 +30,12 @@ public class AddStoryActivity extends AppCompatActivity {
     private ImageView storyImage;
     private EditText title;
     private EditText story;
+    private String strTitle;
     private Uri imageUrl;
     private FirebaseStorage storage;
-    private StorageReference storageReference;
+    private StorageReference storageRef;
+
+    //  private StorageReference storageRef;
     private boolean isPhotoAdded;
 
     @Override
@@ -39,21 +43,25 @@ public class AddStoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_story);
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        // storageRef = FirebaseStorage.getInstance().getReference();
+
         title = (EditText) findViewById(R.id.inputTitleStory);
         story = (EditText) findViewById(R.id.inputStory);
         storyImage = (ImageView) findViewById(R.id.storyImage);
         storage = FirebaseStorage.getInstance();
-        storageReference = storage.getReference();
+        storageRef = storage.getReference();
         isPhotoAdded = false;
     }
 
     public void onClickAdd(View view) {
-        String strTitle = title.getText().toString();
+        strTitle = title.getText().toString();
         String strStory = story.getText().toString();
         if (strTitle.equals("") || strStory.equals("")) {
             Toast.makeText(AddStoryActivity.this, "Please Fill The Blanks", Toast.LENGTH_SHORT).show();
         } else {
-            mDatabase.child("Stories").child(strTitle).setValue(strStory).addOnCompleteListener(new OnCompleteListener<Void>() {
+            mDatabase.child("Stories").child(strTitle).child("story").setValue(strStory);
+            mDatabase.child("Stories").child(strTitle).child("title").setValue(strTitle)
+            .addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful() && isPhotoAdded) {
@@ -64,6 +72,16 @@ public class AddStoryActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void writePicToDatabase() {
+        StorageReference imageRef = storageRef.child("storyImages/" + strTitle);
+        imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                mDatabase.child("Stories").child(strTitle).child("image").setValue(uri.toString());
+            }
+        });
     }
 
     public void onClickAddPhoto(View view) {
@@ -79,7 +97,7 @@ public class AddStoryActivity extends AppCompatActivity {
         if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
             imageUrl = data.getData();
             //storyImage.setImageURI(imageUrl);
-          //  storyImage.setImageDrawable(R.drawable.tick);
+            //  storyImage.setImageDrawable(R.drawable.tick);
             storyImage.setImageResource(getResources().getIdentifier("com.example.readwitharti:drawable/tick", null, null));
             isPhotoAdded = true;
         }
@@ -91,11 +109,12 @@ public class AddStoryActivity extends AppCompatActivity {
         progress.show();
 
         //   String random = UUID.randomUUID().toString();
-        StorageReference riversRef = storageReference.child("storyImages/" + title.getText().toString());
+        StorageReference riversRef = storageRef.child("storyImages/" + title.getText().toString());
         riversRef.putFile(imageUrl).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                 if (task.isSuccessful()) {
+                    writePicToDatabase();
                     progress.dismiss();
                     Snackbar.make(findViewById(android.R.id.content), "Story Uploaded", Snackbar.LENGTH_LONG).show();
                 } else {

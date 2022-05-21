@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference myRef;
     ArrayList<Story> stories;
     RecyclerAdapter recyclerAdapter;
-    Context mContext;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
