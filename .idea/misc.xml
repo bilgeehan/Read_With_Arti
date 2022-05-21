@@ -28,6 +28,7 @@
         <entry key="..\:/Users/Bilgisayar/AndroidStudioProjects/Read_With_Arti/app/src/main/res/layout/activity_welcome.xml" value="0.2" />
         <entry key="..\:/Users/Bilgisayar/AndroidStudioProjects/Read_With_Arti/app/src/main/res/layout/story_item.xml" value="0.253125" />
         <entry key="app/src/main/res/drawable/ic_baseline_search.xml" value="0.2085" />
+        <entry key="app/src/main/res/drawable/shape_background.xml" value="0.201" />
         <entry key="app/src/main/res/layout/activity_add_admin.xml" value="0.24583333333333332" />
         <entry key="app/src/main/res/layout/activity_add_story.xml" value="0.18614130434782608" />
         <entry key="app/src/main/res/layout/activity_admin.xml" value="0.19610507246376813" />
@@ -41,7 +42,7 @@
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.18614130434782608" />
         <entry key="app/src/main/res/layout/activity_story.xml" value="0.18614130434782608" />
-        <entry key="app/src/main/res/layout/activity_welcome.xml" value="0.18614130434782608" />
+        <entry key="app/src/main/res/layout/activity_welcome.xml" value="0.1" />
         <entry key="app/src/main/res/layout/holder.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/list_stories.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/main_item.xml" value="0.19610507246376813" />
