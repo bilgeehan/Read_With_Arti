@@ -14,7 +14,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
             android:name=".AboutUs"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".SpeechToStoryActivity"
             android:exported="true">
