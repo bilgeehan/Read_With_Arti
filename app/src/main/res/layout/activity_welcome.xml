@@ -28,7 +28,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.88"
+        app:layout_constraintVertical_bias="0.866"
+        app:srcCompat="@drawable/white_button" />
+
+    <ImageButton
+        android:id="@+id/imageButton3"
+        android:layout_width="271dp"
+        android:layout_height="64dp"
+        android:background="@drawable/white_button"
+        android:onClick="onClickSAboutUs"
+        android:scrollbarSize="28dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.53"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.978"
         app:srcCompat="@drawable/white_button" />
 
     <ImageButton
@@ -90,5 +105,15 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="About Us"
+        android:textColor="#000000"
+        android:textSize="28sp"
+        tools:layout_editor_absoluteX="158dp"
+        tools:layout_editor_absoluteY="666dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,13 +13,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
+            android:name=".AboutUs"
+            android:exported="false" />
+        <activity
             android:name=".SpeechToStoryActivity"
-            android:exported="true" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".AddAdminActivity"
@@ -29,7 +32,7 @@
             android:exported="true" />
         <activity
             android:name=".AdminEditStory"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".DeleteStoryActivity"
             android:exported="true" />

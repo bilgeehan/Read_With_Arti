@@ -23,4 +23,8 @@ public class WelcomeActivity extends AppCompatActivity {
         Intent intent = new Intent(WelcomeActivity.this, SignUpActivity.class);
         startActivity(intent);
     }
+    public void onClickSAboutUs(View view) {
+        Intent intent = new Intent(WelcomeActivity.this, AboutUs.class);
+        startActivity(intent);
+    }
 }
