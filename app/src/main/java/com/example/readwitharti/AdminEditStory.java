@@ -24,27 +24,28 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 public class AdminEditStory extends AppCompatActivity {
-private TextView admintitle;
-private EditText adminstory;
-private DatabaseReference mDatabase;
-private String story;
-private String title;
+    private TextView admintitle;
+    private EditText adminstory;
+    private DatabaseReference mDatabase;
+    private String story;
+    private String title;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_edit_story);
         Intent intent = getIntent();
         title = intent.getStringExtra("Title");
-        adminstory=findViewById(R.id.text9);
-        admintitle=findViewById(R.id.textView11);
+        adminstory = findViewById(R.id.text9);
+        admintitle = findViewById(R.id.textView11);
         admintitle.setText(title);
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         mDatabase.child("Stories").child(title).child("story").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    story=snapshot.getValue().toString();
+                if (snapshot.exists()) {
+                    story = snapshot.getValue().toString();
                     adminstory.setText(story);
                 }
             }
@@ -54,29 +55,20 @@ private String title;
 
             }
         });
-
-
-
+    }
+    public void onclickbutton(View view) {
+        String str = adminstory.getText().toString();
+        mDatabase.child("Stories").child(title).child("story").setValue(str).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(AdminEditStory.this, "Edited", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(AdminEditStory.this, "Not Edited", Toast.LENGTH_LONG).show();
                 }
-                public void onclickbutton(View view){
-                 String str=adminstory.getText().toString();
-                 mDatabase.child("Stories").child(title).child("story").setValue(str).addOnCompleteListener(new OnCompleteListener<Void>() {
-                     @Override
-                     public void onComplete(@NonNull Task<Void> task) {
-                         if(task.isSuccessful()){
-                             Toast.makeText(AdminEditStory.this, "Edited", Toast.LENGTH_LONG).show();
-                         }
-                         else{
-                             Toast.makeText(AdminEditStory.this, "Not Edited", Toast.LENGTH_LONG).show();
-                         }
-                     }
-                 });
-
-
-
             }
-
-
+        });
+    }
 }
 
 
