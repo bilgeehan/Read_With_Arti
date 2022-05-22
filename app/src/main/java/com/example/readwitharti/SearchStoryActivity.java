@@ -10,16 +10,16 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class SearchStoryActivity extends AppCompatActivity {
     RecyclerView recyclerView;
-    MainAdapter mainAdapter;
+   // MainAdapter mainAdapter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_story);
+     //   setContentView(R.layout.activity_search_story);
         recyclerView=findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        FirebaseRecyclerOptions<Story> options= new FirebaseRecyclerOptions.Builder<Story>()
-                .setQuery(FirebaseDatabase.getInstance().getReference().child("Stories"),)
+     /*   FirebaseRecyclerOptions<Story> options= new FirebaseRecyclerOptions.Builder<Story>()
+                .setQuery(FirebaseDatabase.getInstance().getReference().child("Stories"),)*/
     }
 }
