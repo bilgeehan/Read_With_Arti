@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.view.View;
+import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +33,10 @@ public class SpeechToStoryActivity extends AppCompatActivity {
     private DatabaseReference myRef;
     private String userTalk;
     private ImageView micButton;
+    private Chronometer timer;
     private SpeechRecognizer speechRecognizer;
+    private long totalTime;
+    private boolean isRunning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +47,17 @@ public class SpeechToStoryActivity extends AppCompatActivity {
         micButton = findViewById(R.id.imageView20);
         myRef = FirebaseDatabase.getInstance().getReference();
         userTalk = "";
-        arrStory=new ArrayList<>();
-        userTalks=new ArrayList<>();
+        arrStory = new ArrayList<>();
+        userTalks = new ArrayList<>();
+
+        timer = findViewById(R.id.chronometer);
+        timer.setFormat("Time: %s");
+        timer.setBase(SystemClock.elapsedRealtime());
 
         Intent intent = getIntent();
         strTitle = intent.getStringExtra("chosenTitle");
         title.setText(strTitle);
-        getDataFromDatabase();
+        getStoryFromDatabase();
 
         micButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,7 +67,7 @@ public class SpeechToStoryActivity extends AppCompatActivity {
         });
     }
 
-    private void getDataFromDatabase() {
+    private void getStoryFromDatabase() {
         myRef.child("Stories").child(strTitle).child("story").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -108,6 +117,9 @@ public class SpeechToStoryActivity extends AppCompatActivity {
             public void onError(int error) {
                 Toast.makeText(SpeechToStoryActivity.this, "Speech Not Detected", Toast.LENGTH_LONG).show();
                 micButton.setImageResource(R.drawable.no_sound);
+                pauseTimer();
+                resetTimer();
+                totalTime = 0;
             }
 
             @Override
@@ -120,7 +132,9 @@ public class SpeechToStoryActivity extends AppCompatActivity {
                 //  story.setText(userTalk);
                 System.out.println(userTalk);
                 micButton.setImageResource(R.drawable.no_sound);
-
+               // speechRecognizer.stopListening();
+                pauseTimer();
+                System.out.println(totalTime);
             }
 
             @Override
@@ -134,6 +148,29 @@ public class SpeechToStoryActivity extends AppCompatActivity {
             }
         });
         speechRecognizer.startListening(intent);
+        resetTimer();
+        startTimer();
         micButton.setImageResource(R.drawable.microphone);
+    }
+
+    public void startTimer() {
+        if (!isRunning) {
+            timer.setBase(SystemClock.elapsedRealtime() - totalTime);
+            timer.start();
+            isRunning = true;
+        }
+    }
+
+    public void pauseTimer() {
+        if (isRunning) {
+            timer.stop();
+            totalTime = SystemClock.elapsedRealtime() - timer.getBase();
+            isRunning = false;
+        }
+    }
+
+    public void resetTimer() {
+        timer.setBase(SystemClock.elapsedRealtime());
+        totalTime = 0;
     }
 }
