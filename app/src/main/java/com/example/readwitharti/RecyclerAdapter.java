@@ -18,10 +18,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     private static final String Tag = "RecyclerView";
     private Context mContext;
     private ArrayList<Story> storyList;
+    private onClickStoryListener mOnClickStoryListener;
 
-    public RecyclerAdapter(Context mContext, ArrayList<Story> storyList) {
+    public RecyclerAdapter(Context mContext, ArrayList<Story> storyList,onClickStoryListener onClickStoryListener) {
         this.mContext = mContext;
         this.storyList = storyList;
+        this.mOnClickStoryListener=onClickStoryListener;
     }
 
     @NonNull
@@ -30,7 +32,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.story_item, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view,mOnClickStoryListener);
     }
 
     @Override
@@ -48,14 +50,26 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         return storyList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView imageView;
         TextView textView;
+        onClickStoryListener onClickStoryListener;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, onClickStoryListener onClickStoryListener) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
             textView = itemView.findViewById(R.id.textViewy);
+            itemView.setOnClickListener(this);
+            this.onClickStoryListener = onClickStoryListener;
         }
+
+        @Override
+        public void onClick(View v) {
+            onClickStoryListener.onClickStory(getAdapterPosition());
+        }
+    }
+
+    public interface onClickStoryListener {
+        void onClickStory(int position);
     }
 }

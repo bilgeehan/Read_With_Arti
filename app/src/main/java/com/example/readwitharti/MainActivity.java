@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -17,11 +18,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
-    RecyclerView recyclerView;
-    DatabaseReference myRef;
-    ArrayList<Story> stories;
-    RecyclerAdapter recyclerAdapter;
+public class MainActivity extends AppCompatActivity implements RecyclerAdapter.onClickStoryListener {
+    private RecyclerView recyclerView;
+    private DatabaseReference myRef;
+    private ArrayList<Story> stories;
+    private RecyclerAdapter recyclerAdapter;
 
 
     @Override
@@ -39,8 +40,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getDataFromDatabase() {
-        Query query = myRef.child("Stories");
-        query.addValueEventListener(new ValueEventListener() {
+        myRef.child("Stories").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 clearEverything();
@@ -50,11 +50,7 @@ public class MainActivity extends AppCompatActivity {
                     story.setTitle(snapshot.child("title").getValue().toString());
                     stories.add(story);
                 }
-            /*    System.out.println(stories.get(0).getTitle());
-                System.out.println(stories.get(0).getCoverPhoto());
-                System.out.println(stories.get(1).getTitle());
-                System.out.println(stories.get(1).getCoverPhoto());*/
-                recyclerAdapter = new RecyclerAdapter(getApplicationContext(), stories);
+                recyclerAdapter = new RecyclerAdapter(getApplicationContext(), stories, MainActivity.this);
                 recyclerView.setAdapter(recyclerAdapter);
                 recyclerAdapter.notifyDataSetChanged();
             }
@@ -74,5 +70,14 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         stories = new ArrayList<>();
+    }
+
+    @Override
+    public void onClickStory(int position) {
+        System.out.println(stories.get(position).getTitle());
+        Intent intent = new Intent(MainActivity.this, SpeechToStoryActivity.class);
+        intent.putExtra("chosenTitle", stories.get(position).getTitle());
+        startActivity(intent);
+        //finish();
     }
 }
