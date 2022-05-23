@@ -1,11 +1,12 @@
 package com.example.readwitharti;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,8 +18,9 @@ import java.util.Locale;
 public class SpeechToStoryActivity extends AppCompatActivity {
     TextView title;
     TextView story;
+    String userTalk;
     ImageView micButton;
-    private final int REQUEST_CODE_SPEECH = 1000;
+    private SpeechRecognizer speechRecognizer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,7 @@ public class SpeechToStoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_speech_to_story);
         title = findViewById(R.id.textTitle);
         story = findViewById(R.id.textStory);
+        userTalk = "";
         micButton = findViewById(R.id.imageView20);
         micButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,28 +43,50 @@ public class SpeechToStoryActivity extends AppCompatActivity {
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
         intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Start to Read");
-
-        try {
-            startActivityForResult(intent, REQUEST_CODE_SPEECH);
-        } catch (Exception e) {
-            Toast.makeText(this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
-
-        }
+        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(SpeechToStoryActivity.this);
+        speechRecognizer.setRecognitionListener(new listener());
+        speechRecognizer.startListening(intent);
+        micButton.setImageResource(R.drawable.microphone);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_CODE_SPEECH: {
-                if (resultCode == RESULT_OK && null != data) {
-                    ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    story.setText(result.get(0));
-                    System.out.println(result.get(0));
-                }
-                break;
-            }
+    class listener implements RecognitionListener {
+        public void onReadyForSpeech(Bundle params) {
+            Toast.makeText(SpeechToStoryActivity.this, "Listening...", Toast.LENGTH_SHORT).show();
         }
 
+        public void onBeginningOfSpeech() {
+            // Toast.makeText(SpeechToStoryActivity.this, "Listening...", Toast.LENGTH_LONG).show();
+        }
+
+        public void onRmsChanged(float rmsdB) {
+        }
+
+        public void onBufferReceived(byte[] buffer) {
+        }
+
+        public void onEndOfSpeech() {
+        }
+
+        public void onError(int error) {
+            Toast.makeText(SpeechToStoryActivity.this, "Speech Not Detected", Toast.LENGTH_LONG).show();
+            micButton.setImageResource(R.drawable.no_sound);
+        }
+
+        public void onResults(Bundle results) {
+            userTalk = "";
+            ArrayList<String> data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+            for (int i = 0; i < data.size(); i++) {
+                userTalk += data.get(i);
+            }
+            story.setText(userTalk);
+            System.out.println(userTalk);
+            micButton.setImageResource(R.drawable.no_sound);
+        }
+
+        public void onPartialResults(Bundle partialResults) {
+        }
+
+        public void onEvent(int eventType, Bundle params) {
+        }
     }
 }
