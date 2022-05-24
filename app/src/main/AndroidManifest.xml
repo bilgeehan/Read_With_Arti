@@ -19,11 +19,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
+            android:name=".Calendar"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity2"
+            android:exported="true"
+            android:label="@string/title_activity_main2">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".AboutUs"
             android:exported="true" />
         <activity
             android:name=".SpeechToStoryActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".AddAdminActivity"
             android:exported="true" />

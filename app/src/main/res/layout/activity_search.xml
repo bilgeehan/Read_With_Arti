@@ -14,6 +14,7 @@
         android:layout_margin="5dp"
         android:padding="10dp"
         app:queryHint="Search"
+        android:background="@color/white"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="-7dp"
         tools:layout_editor_absoluteY="50dp">
@@ -26,7 +27,7 @@
     </androidx.appcompat.widget.SearchView>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/StoryList"
+        android:id="@+id/searchstorylist"
         android:layout_width="393dp"
         android:layout_height="619dp"
         android:layout_marginTop="2dp"
