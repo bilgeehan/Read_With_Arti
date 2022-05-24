@@ -115,7 +115,13 @@ public class SpeechToStoryActivity extends AppCompatActivity {
 
             @Override
             public void onError(int error) {
-                Toast.makeText(SpeechToStoryActivity.this, "Speech Not Detected", Toast.LENGTH_LONG).show();
+                if (error == 3 || error == 9) {
+                    Toast.makeText(SpeechToStoryActivity.this, "Please Give Record Permission to Google and ReadWithArti",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(SpeechToStoryActivity.this, "Speech Not Detected", Toast.LENGTH_SHORT).show();
+                }
+                System.out.println("Error" + error);
                 micButton.setImageResource(R.drawable.no_sound);
                 pauseTimer();
                 resetTimer();
@@ -132,7 +138,7 @@ public class SpeechToStoryActivity extends AppCompatActivity {
                 //  story.setText(userTalk);
                 System.out.println(userTalk);
                 micButton.setImageResource(R.drawable.no_sound);
-               // speechRecognizer.stopListening();
+                // speechRecognizer.stopListening();
                 pauseTimer();
                 System.out.println(totalTime);
             }
