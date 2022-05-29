@@ -15,24 +15,32 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Objects;
 
 public class SpeechToStoryActivity extends AppCompatActivity {
     private TextView title;
-    ArrayList<String> userTalks;
-    ArrayList<String> arrStory;
+    private String[] userTalks;
+    private String[] splitStory;
+    private ArrayList<String> wrongWords;
+    private String strStory;
     private String strTitle;
     private TextView story;
-    private DatabaseReference myRef;
-    private String userTalk;
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
+    private double userScore;
+    private ImageView saveButton;
     private ImageView micButton;
+    private Boolean isClicked;
     private Chronometer timer;
     private SpeechRecognizer speechRecognizer;
     private long totalTime;
@@ -45,11 +53,12 @@ public class SpeechToStoryActivity extends AppCompatActivity {
         title = findViewById(R.id.textTitle);
         story = findViewById(R.id.textStory);
         micButton = findViewById(R.id.imageView20);
-        myRef = FirebaseDatabase.getInstance().getReference();
-        userTalk = "";
-        arrStory = new ArrayList<>();
-        userTalks = new ArrayList<>();
-
+        saveButton = findViewById(R.id.imageView32);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        wrongWords = new ArrayList<>();
+        //  words = new ArrayList<>();
+        mAuth = FirebaseAuth.getInstance();
+        isClicked = false;
         timer = findViewById(R.id.chronometer);
         timer.setFormat("Time: %s");
         timer.setBase(SystemClock.elapsedRealtime());
@@ -62,16 +71,34 @@ public class SpeechToStoryActivity extends AppCompatActivity {
         micButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                speak();
+                isClicked = true;
+                speechToTextMethod();
+            }
+        });
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isClicked) {
+                    mDatabase.child("Users").child(mAuth.getUid()).child("Stories").child(strTitle).child("time").setValue(totalTime);
+                    mDatabase.child("Users").child(mAuth.getUid()).child("Stories").child(strTitle).child("score").setValue(userScore);
+                    Toast.makeText(SpeechToStoryActivity.this, "Story Saved", Toast.LENGTH_SHORT).show();
+                    Intent intent1 = new Intent(SpeechToStoryActivity.this, MainActivity.class);
+                    startActivity(intent1);
+                    finish();
+                } else {
+                    Toast.makeText(SpeechToStoryActivity.this, "Please Read Story First", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
 
     private void getStoryFromDatabase() {
-        myRef.child("Stories").child(strTitle).child("story").addValueEventListener(new ValueEventListener() {
+        mDatabase.child("Stories").child(strTitle).child("story").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                story.setText(dataSnapshot.getValue().toString());
+                strStory = dataSnapshot.getValue().toString();
+                story.setText(strStory);
+                splitStory = strStory.split(" ");
             }
 
             @Override
@@ -81,7 +108,7 @@ public class SpeechToStoryActivity extends AppCompatActivity {
         });
     }
 
-    private void speak() {
+    private void speechToTextMethod() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
@@ -130,7 +157,7 @@ public class SpeechToStoryActivity extends AppCompatActivity {
 
             @Override
             public void onResults(Bundle results) {
-                userTalk = "";
+                String userTalk = "";
                 ArrayList<String> data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                 for (int i = 0; i < data.size(); i++) {
                     userTalk += data.get(i);
@@ -139,8 +166,11 @@ public class SpeechToStoryActivity extends AppCompatActivity {
                 System.out.println(userTalk);
                 micButton.setImageResource(R.drawable.no_sound);
                 // speechRecognizer.stopListening();
+                userTalks = userTalk.split(" ");
+                //  System.out.println(userTalks[2]);
                 pauseTimer();
-                System.out.println(totalTime);
+                // System.out.println(totalTime);
+                compareTalks();
             }
 
             @Override
@@ -159,7 +189,28 @@ public class SpeechToStoryActivity extends AppCompatActivity {
         micButton.setImageResource(R.drawable.microphone);
     }
 
-    public void startTimer() {
+    private void compareTalks() {
+        wrongWords.clear();
+        for (int i = 0; i < splitStory.length; i++) {
+            try {
+                if (!Objects.equals(userTalks[i], splitStory[i])) {
+                    wrongWords.add(splitStory[i]);
+                }
+            } catch (ArrayIndexOutOfBoundsException exception) {
+                break;
+            }
+        }
+        for (int i = 0; i < wrongWords.size(); i++) {
+            System.out.println(wrongWords.get(i));
+        }
+
+        final DecimalFormat df = new DecimalFormat("0.00");
+        userScore = (((double) splitStory.length - (double) wrongWords.size()) / ((double) splitStory.length));
+        userScore = Double.valueOf(df.format(userScore));
+        //  System.out.println(userScore);
+    }
+
+    private void startTimer() {
         if (!isRunning) {
             timer.setBase(SystemClock.elapsedRealtime() - totalTime);
             timer.start();
@@ -167,7 +218,7 @@ public class SpeechToStoryActivity extends AppCompatActivity {
         }
     }
 
-    public void pauseTimer() {
+    private void pauseTimer() {
         if (isRunning) {
             timer.stop();
             totalTime = SystemClock.elapsedRealtime() - timer.getBase();
@@ -175,7 +226,7 @@ public class SpeechToStoryActivity extends AppCompatActivity {
         }
     }
 
-    public void resetTimer() {
+    private void resetTimer() {
         timer.setBase(SystemClock.elapsedRealtime());
         totalTime = 0;
     }
