@@ -12,12 +12,15 @@
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:layout_margin="5dp"
-        android:padding="10dp"
-        app:queryHint="Search"
+        android:layout_marginTop="32dp"
         android:background="@color/white"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="-7dp"
-        tools:layout_editor_absoluteY="50dp">
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.444"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:queryHint="Search"
+        tools:ignore="MissingConstraints">
 
 
         <androidx.cardview.widget.CardView
@@ -26,16 +29,14 @@
             app:cardBackgroundColor="@color/purple_200" />
     </androidx.appcompat.widget.SearchView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/searchstorylist"
-        android:layout_width="393dp"
-        android:layout_height="619dp"
-        android:layout_marginTop="2dp"
+    <ListView
+        android:id="@+id/listTitles"
+        android:layout_width="409dp"
+        android:layout_height="668dp"
+        android:layout_marginTop="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.581"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toBottomOf="@+id/searchView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

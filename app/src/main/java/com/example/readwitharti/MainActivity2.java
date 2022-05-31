@@ -49,7 +49,7 @@ public class MainActivity2 extends AppCompatActivity implements BottomNavigation
                 break;
             }
             case R.id.navigation_search:{
-                startActivity(new Intent(this, SearchStoryActivity.class));
+                startActivity(new Intent(this, SearchActivity.class));
                 break;
             }
             case R.id.navigation_profile:{
