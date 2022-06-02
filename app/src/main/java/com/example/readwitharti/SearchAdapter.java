@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,14 +13,53 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
-public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHolder> {
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHolder> implements Filterable {
     Context context;
     ArrayList<Story> listt;
+    ArrayList<Story> filteredlistt;
 
-    public SearchAdapter(Context context, ArrayList<Story> listt) {
+
+
+    public SearchAdapter(Context context, ArrayList<Story> listt, ArrayList<Story> filteredlistt) {
         this.context = context;
         this.listt = listt;
+        this.filteredlistt=filteredlistt;
+    }
+
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString=charSequence.toString();
+                if(charString.isEmpty()){
+                    filteredlistt=listt;
+                } else {
+                    ArrayList<Story> filteredlist = new ArrayList<>();
+                        for(int i=0; i<listt.size(); i++){
+                            if(listt.get(i).getTitle().toLowerCase().contains(charString.toLowerCase())){
+                                filteredlist.add(listt.get(i));
+                            }
+                        }
+                    filteredlistt=filteredlist;
+                }
+                FilterResults filterResults= new FilterResults();
+                filterResults.values=filteredlistt;
+                return filterResults;
+
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                listt.clear();
+                filteredlistt=(ArrayList<Story>) filterResults.values;
+                notifyDataSetChanged();
+
+            }
+        };
+
     }
 
 
@@ -49,4 +90,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
             titlee = itemView.findViewById(R.id.inputTitleStory);
         }
     }
+
+
 }
