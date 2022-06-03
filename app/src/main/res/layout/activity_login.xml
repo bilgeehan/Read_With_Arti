@@ -51,10 +51,10 @@
         android:layout_height="55dp"
         android:background="@drawable/white_button"
         android:ems="10"
-        android:hint=" E-Mail"
-        android:inputType="textPersonName"
-        android:paddingStart="85dp"
-        android:textSize="25sp"
+        android:hint="             E-Mail"
+        android:inputType="textEmailAddress"
+        android:paddingStart="10dp"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
@@ -68,10 +68,10 @@
         android:layout_height="52dp"
         android:background="@drawable/white_button"
         android:ems="10"
-        android:hint="Password"
+        android:hint="           Password"
         android:inputType="textPassword"
-        android:paddingStart="60dp"
-        android:textSize="28sp"
+        android:paddingStart="10dp"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
@@ -118,5 +118,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.952" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

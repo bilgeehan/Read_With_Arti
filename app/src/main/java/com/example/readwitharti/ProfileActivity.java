@@ -19,11 +19,11 @@ import java.util.ArrayList;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    RecyclerView recyclerVieww;
+    private RecyclerView recyclerVieww;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
-    ArrayList<Statistics> statisticsArrayList;
-    StatisticsAdapter statisticsAdapter;
+    private ArrayList<Statistics> statisticsArrayList;
+    private StatisticsAdapter statisticsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
