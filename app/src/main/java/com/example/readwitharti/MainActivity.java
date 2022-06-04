@@ -2,13 +2,17 @@ package com.example.readwitharti;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.ui.AppBarConfiguration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -18,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements RecyclerAdapter.onClickStoryListener {
+public class MainActivity extends AppCompatActivity implements RecyclerAdapter.onClickStoryListener, BottomNavigationView.OnNavigationItemSelectedListener {
     private RecyclerView recyclerView;
     private DatabaseReference myRef;
     private ArrayList<Story> stories;
@@ -37,6 +41,15 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.o
         stories = new ArrayList<>();
         clearEverything();
         getDataFromDatabase();
+
+        BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView.setOnNavigationItemSelectedListener((BottomNavigationView.OnNavigationItemSelectedListener) MainActivity.this);
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.navigation_home, R.id.navigation_search, R.id.navigation_profile)
+                .build();
+        // NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main2);
+        navView.setOnNavigationItemSelectedListener((BottomNavigationView.OnNavigationItemSelectedListener) this);
+
     }
 
     private void getDataFromDatabase() {
@@ -79,5 +92,25 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.o
         intent.putExtra("chosenTitle", stories.get(position).getTitle());
         startActivity(intent);
         //finish();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.navigation_home: {
+                // startActivity(new Intent(this, MainActivity.class));
+                break;
+            }
+            case R.id.navigation_search: {
+                startActivity(new Intent(this, SearchActivity.class));
+                break;
+            }
+            case R.id.navigation_profile: {
+                startActivity(new Intent(this, ProfileActivity.class));
+                break;
+
+            }
+        }
+        return false;
     }
 }

@@ -2,12 +2,16 @@ package com.example.readwitharti;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.ui.AppBarConfiguration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -17,7 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
     private RecyclerView recyclerVieww;
     private DatabaseReference mDatabase;
@@ -36,6 +40,15 @@ public class ProfileActivity extends AppCompatActivity {
         recyclerVieww.setLayoutManager(linearLayoutManager);
         recyclerVieww.setHasFixedSize(true);
         statisticsArrayList = new ArrayList<>();
+
+        BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView.setOnNavigationItemSelectedListener((BottomNavigationView.OnNavigationItemSelectedListener) ProfileActivity.this);
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.navigation_home, R.id.navigation_search, R.id.navigation_profile)
+                .build();
+        // NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main2);
+        navView.setOnNavigationItemSelectedListener((BottomNavigationView.OnNavigationItemSelectedListener) this);
+
 
         mDatabase.child("Users").child(mAuth.getUid()).child("Stories").addValueEventListener(new ValueEventListener() {
             @Override
@@ -61,4 +74,23 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.navigation_home:{
+                startActivity(new Intent(this, MainActivity.class));
+                break;
+            }
+            case R.id.navigation_search:{
+                  startActivity(new Intent(this, SearchActivity.class));
+                break;
+            }
+            case R.id.navigation_profile:{
+                //startActivity(new Intent(this, ProfileActivity.class));
+                break;
+
+            }
+        }
+        return false;
+    }
 }
