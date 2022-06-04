@@ -56,7 +56,6 @@ public class SpeechToStoryActivity extends AppCompatActivity {
         saveButton = findViewById(R.id.imageView32);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         wrongWords = new ArrayList<>();
-        //  words = new ArrayList<>();
         mAuth = FirebaseAuth.getInstance();
         isClicked = false;
         timer = findViewById(R.id.chronometer);
@@ -162,14 +161,10 @@ public class SpeechToStoryActivity extends AppCompatActivity {
                 for (int i = 0; i < data.size(); i++) {
                     userTalk += data.get(i);
                 }
-                //  story.setText(userTalk);
                 System.out.println(userTalk);
                 micButton.setImageResource(R.drawable.no_sound);
-                // speechRecognizer.stopListening();
                 userTalks = userTalk.split(" ");
-                //  System.out.println(userTalks[2]);
                 pauseTimer();
-                // System.out.println(totalTime);
                 compareTalks();
             }
 
@@ -203,11 +198,9 @@ public class SpeechToStoryActivity extends AppCompatActivity {
         for (int i = 0; i < wrongWords.size(); i++) {
             System.out.println(wrongWords.get(i));
         }
-
         final DecimalFormat df = new DecimalFormat("0.00");
         userScore = (((double) splitStory.length - (double) wrongWords.size()) / ((double) splitStory.length));
         userScore = Double.valueOf(df.format(userScore));
-        //  System.out.println(userScore);
     }
 
     private void startTimer() {
