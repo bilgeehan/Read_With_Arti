@@ -63,22 +63,6 @@
         app:layout_constraintVertical_bias="0.476" />
 
     <EditText
-        android:id="@+id/inputDate"
-        android:layout_width="240dp"
-        android:layout_height="42dp"
-        android:background="@drawable/white_button"
-        android:ems="10"
-        android:hint="             Date of Birth"
-        android:inputType="date"
-        android:paddingStart="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.555" />
-
-    <EditText
         android:id="@+id/inputMail"
         android:layout_width="240dp"
         android:layout_height="43dp"
@@ -153,6 +137,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.956" />
+
+    <Button
+        android:id="@+id/button10"
+        android:layout_width="238dp"
+        android:layout_height="42dp"
+        android:background="@drawable/white_button"
+        android:text="      Date of Birth"
+        android:textColor="#978E8E"
+        app:layout_constraintBottom_toTopOf="@+id/inputMail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputName" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
