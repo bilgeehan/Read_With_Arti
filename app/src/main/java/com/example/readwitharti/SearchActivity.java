@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Filter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -61,9 +62,14 @@ public class SearchActivity extends AppCompatActivity  {
 
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        System.out.println(position);
-                        chosenPosition = position;
+                       // System.out.println(position);
+                        //chosenPosition = position;
+                        TextView textView=(TextView) view.findViewById(R.id.textStory);
+                        String selecteditem=String.valueOf(parent.getItemAtPosition(position));
+                        // this will give the clicked item's position
+                        Toast.makeText(SearchActivity.this, "You chose " + selecteditem,Toast.LENGTH_LONG ).show();
                         Intent intent=new Intent(SearchActivity.this,MainActivity.class);
+                        intent.putExtra("title", titles.get(position));
                         startActivity(intent);
 
                     }
