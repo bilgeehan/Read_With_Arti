@@ -52,10 +52,11 @@ public class AdminEditStory extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Toast.makeText(AdminEditStory.this, "Something went wrong. Please try again", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
     public void onclickbutton(View view) {
         String str = adminstory.getText().toString();
         mDatabase.child("Stories").child(title).child("story").setValue(str).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -63,6 +64,9 @@ public class AdminEditStory extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(AdminEditStory.this, "Edited", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(AdminEditStory.this, AdminActivity.class);
+                    startActivity(intent);
+                    finish();
                 } else {
                     Toast.makeText(AdminEditStory.this, "Not Edited", Toast.LENGTH_LONG).show();
                 }

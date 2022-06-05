@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -79,6 +81,11 @@ public class DeleteStoryActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (!task.isSuccessful()) {
                             Toast.makeText(DeleteStoryActivity.this, "Something went wrong. Please try again", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Snackbar.make(findViewById(android.R.id.content), "Story Deleted", Snackbar.LENGTH_LONG).show();
+                            Intent intent = new Intent(DeleteStoryActivity.this, AdminActivity.class);
+                            startActivity(intent);
+                            finish();
                         }
                     }
                 });

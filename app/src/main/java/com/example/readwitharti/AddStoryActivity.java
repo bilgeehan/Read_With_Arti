@@ -61,16 +61,16 @@ public class AddStoryActivity extends AppCompatActivity {
         } else {
             mDatabase.child("Stories").child(strTitle).child("story").setValue(strStory);
             mDatabase.child("Stories").child(strTitle).child("title").setValue(strTitle)
-            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful() && isPhotoAdded) {
-                        uploadPicture();
-                    } else {
-                        Toast.makeText(AddStoryActivity.this, "!!ERROR!!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful() && isPhotoAdded) {
+                                uploadPicture();
+                            } else {
+                                Toast.makeText(AddStoryActivity.this, "!!ERROR!!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
         }
     }
 
@@ -116,7 +116,11 @@ public class AddStoryActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     writePicToDatabase();
                     progress.dismiss();
-                    Snackbar.make(findViewById(android.R.id.content), "Story Uploaded", Snackbar.LENGTH_LONG).show();
+                    //     Snackbar.make(findViewById(android.R.id.content), "Story Uploaded", Snackbar.LENGTH_LONG).show();
+                    Intent intent = new Intent(AddStoryActivity.this, AdminActivity.class);
+                    Toast.makeText(AddStoryActivity.this, "Story Uploaded", Toast.LENGTH_SHORT).show();
+                    startActivity(intent);
+                    finish();
                 } else {
                     progress.dismiss();
                     Toast.makeText(AddStoryActivity.this, "Failed to Upload Picture.", Toast.LENGTH_LONG).show();

@@ -52,8 +52,6 @@ public class EditStoryActivity extends AppCompatActivity {
                     list.setAdapter(adapter);
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         arrKeys.add(String.valueOf(dataSnapshot.getKey()));
-
-
                     }
                     System.out.println(arrKeys.get(1));
                     list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -78,7 +76,6 @@ public class EditStoryActivity extends AppCompatActivity {
         Intent intent=new Intent(EditStoryActivity.this,AdminEditStory.class);
         intent.putExtra("Title",arrKeys.get(chosenPosition));
         startActivity(intent);
-
         }
     }
 

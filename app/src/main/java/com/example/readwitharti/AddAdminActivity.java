@@ -1,5 +1,6 @@
 package com.example.readwitharti;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -47,7 +48,7 @@ public class AddAdminActivity extends AppCompatActivity {
                 if (snapshot.exists()) {
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         arrUser.add((User) dataSnapshot.getValue(User.class));
-                       // emptyMap.put(dataSnapshot.getKey(), (User) dataSnapshot.getValue(User.class));
+                        // emptyMap.put(dataSnapshot.getKey(), (User) dataSnapshot.getValue(User.class));
                         arrKeys.add((String) dataSnapshot.getKey());
                     }
                     for (int i = 0; i < arrUser.size(); i++) {
@@ -81,13 +82,17 @@ public class AddAdminActivity extends AppCompatActivity {
     }
 
     public void addsAdmin(View view) {
-         mDatabase.child("Admins").child(arrKeys.get(chosenUser)).setValue(arrUser.get(chosenUser).getMail()).addOnCompleteListener(new OnCompleteListener<Void>() {
-             @Override
-             public void onComplete(@NonNull Task<Void> task) {
-                 if(task.isSuccessful()){
-                     Snackbar.make(findViewById(android.R.id.content), "Admin Added", Snackbar.LENGTH_SHORT).show();
-                 }
-             }
-         });
+        mDatabase.child("Admins").child(arrKeys.get(chosenUser)).setValue(arrUser.get(chosenUser).getMail()).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Intent intent = new Intent(AddAdminActivity.this, AdminActivity.class);
+                    Toast.makeText(AddAdminActivity.this, "Admin Added", Toast.LENGTH_SHORT).show();
+                    // Snackbar.make(findViewById(android.R.id.content), "Admin Added", Snackbar.LENGTH_SHORT).show();
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
     }
 }
