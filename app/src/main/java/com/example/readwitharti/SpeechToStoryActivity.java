@@ -1,6 +1,7 @@
 package com.example.readwitharti;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -38,13 +39,17 @@ public class SpeechToStoryActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private double userScore;
-    private ImageView saveButton;
+    //  private ImageView saveButton;
     private ImageView micButton;
     private Boolean isClicked;
     private Chronometer timer;
     private SpeechRecognizer speechRecognizer;
     private long totalTime;
     private boolean isRunning;
+    private AlertDialog.Builder dialogBuilder;
+    private TextView viewScore;
+    private TextView viewTime;
+    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +58,7 @@ public class SpeechToStoryActivity extends AppCompatActivity {
         title = findViewById(R.id.textTitle);
         story = findViewById(R.id.textStory);
         micButton = findViewById(R.id.imageView20);
-        saveButton = findViewById(R.id.imageView32);
+        //  saveButton = findViewById(R.id.imageView32);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         wrongWords = new ArrayList<>();
         mAuth = FirebaseAuth.getInstance();
@@ -61,7 +66,12 @@ public class SpeechToStoryActivity extends AppCompatActivity {
         timer = findViewById(R.id.chronometer);
         timer.setFormat("Time: %s");
         timer.setBase(SystemClock.elapsedRealtime());
-
+        if (mAuth.getUid() == null) {
+            Toast.makeText(SpeechToStoryActivity.this, "Please Login First", Toast.LENGTH_LONG).show();
+            Intent intentt = new Intent(this, WelcomeActivity.class);
+            startActivity(intentt);
+            finish();
+        }
         Intent intent = getIntent();
         strTitle = intent.getStringExtra("chosenTitle");
         title.setText(strTitle);
@@ -74,21 +84,25 @@ public class SpeechToStoryActivity extends AppCompatActivity {
                 speechToTextMethod();
             }
         });
-        saveButton.setOnClickListener(new View.OnClickListener() {
+       /* saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isClicked) {
-                    mDatabase.child("Users").child(mAuth.getUid()).child("Stories").child(strTitle).child("time").setValue(totalTime);
-                    mDatabase.child("Users").child(mAuth.getUid()).child("Stories").child(strTitle).child("score").setValue(userScore);
-                    Toast.makeText(SpeechToStoryActivity.this, "Story Saved", Toast.LENGTH_SHORT).show();
-                    Intent intent1 = new Intent(SpeechToStoryActivity.this, MainActivity.class);
-                    startActivity(intent1);
-                    finish();
-                } else {
-                    Toast.makeText(SpeechToStoryActivity.this, "Please Read Story First", Toast.LENGTH_LONG).show();
-                }
+                saveDatas();
             }
-        });
+        });*/
+    }
+
+    public void saveDatas() {
+        if (isClicked) {
+            mDatabase.child("Users").child(mAuth.getUid()).child("Stories").child(strTitle).child("time").setValue(totalTime);
+            mDatabase.child("Users").child(mAuth.getUid()).child("Stories").child(strTitle).child("score").setValue(userScore);
+            Toast.makeText(SpeechToStoryActivity.this, "Story Saved", Toast.LENGTH_SHORT).show();
+            Intent intent1 = new Intent(SpeechToStoryActivity.this, MainActivity.class);
+            startActivity(intent1);
+            finish();
+        } else {
+            Toast.makeText(SpeechToStoryActivity.this, "Please Read Story First", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void getStoryFromDatabase() {
@@ -195,12 +209,21 @@ public class SpeechToStoryActivity extends AppCompatActivity {
                 break;
             }
         }
-        for (int i = 0; i < wrongWords.size(); i++) {
-            System.out.println(wrongWords.get(i));
+        if (!wrongWords.isEmpty()) {
+            String wrongToDB = "";
+            for (int i = 0; i < wrongWords.size(); i++) {
+                System.out.println(wrongWords.get(i));
+                wrongToDB += wrongWords.get(i) + ",";
+            }
+            mDatabase.child("Users").child(mAuth.getUid()).child("Stories").child(strTitle).child("wrong words").setValue(wrongToDB);
         }
         final DecimalFormat df = new DecimalFormat("0.00");
-        userScore = (((double) splitStory.length - (double) wrongWords.size()) / ((double) splitStory.length));
+        userScore =  (((double) splitStory.length - (double) wrongWords.size()) / ((double) splitStory.length));
         userScore = Double.valueOf(df.format(userScore));
+        createNewDialog();
+     /*for (int i = 0; i < wrongWords.size(); i++) {
+            createNewDialog(wrongWords.get(i));
+        }*/
     }
 
     private void startTimer() {
@@ -222,5 +245,26 @@ public class SpeechToStoryActivity extends AppCompatActivity {
     private void resetTimer() {
         timer.setBase(SystemClock.elapsedRealtime());
         totalTime = 0;
+    }
+
+    public void createNewDialog() {
+        dialogBuilder = new AlertDialog.Builder(this);
+        View popUp = getLayoutInflater().inflate(R.layout.popup, null);
+        viewScore = popUp.findViewById(R.id.textView16);
+        viewScore.setText(String.valueOf(userScore));
+        viewTime = popUp.findViewById(R.id.textView28);
+        viewTime.setText(String.valueOf(totalTime));
+        ImageView savee = popUp.findViewById(R.id.imageView37);
+
+        dialogBuilder.setView(popUp);
+        dialog = dialogBuilder.create();
+        dialog.show();
+        savee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveDatas();
+                dialog.dismiss();
+            }
+        });
     }
 }
