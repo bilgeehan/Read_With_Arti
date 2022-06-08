@@ -41,7 +41,6 @@ public class SpeechToStoryActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private double userScore;
-    //  private ImageView saveButton;
     private ImageView micButton;
     private Boolean isClicked;
     private Chronometer timer;
@@ -60,7 +59,6 @@ public class SpeechToStoryActivity extends AppCompatActivity {
         title = findViewById(R.id.textTitle);
         story = findViewById(R.id.textStory);
         micButton = findViewById(R.id.imageView20);
-        //  saveButton = findViewById(R.id.imageView32);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         wrongWords = new ArrayList<>();
         mAuth = FirebaseAuth.getInstance();
@@ -86,12 +84,12 @@ public class SpeechToStoryActivity extends AppCompatActivity {
                 speechToTextMethod();
             }
         });
-       /* saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveDatas();
-            }
-        });*/
+    }
+
+    public void onClickBackk(View v) {
+        Intent intent1 = new Intent(SpeechToStoryActivity.this, MainActivity.class);
+        startActivity(intent1);
+        finish();
     }
 
     public void saveDatas() {
@@ -99,16 +97,16 @@ public class SpeechToStoryActivity extends AppCompatActivity {
             mDatabase.child("Users").child(mAuth.getUid()).child("Stories").child(strTitle).child("time").setValue(totalTime);
             mDatabase.child("Users").child(mAuth.getUid()).child("Stories").child(strTitle).child("score").setValue(userScore);
             Toast.makeText(SpeechToStoryActivity.this, "Story Saved", Toast.LENGTH_SHORT).show();
-           /* Intent intent1 = new Intent(SpeechToStoryActivity.this, MainActivity.class);
-            startActivity(intent1);
-            finish();*/
+            if (!wrongWords.isEmpty()) {
+                mDatabase.child("Users").child(mAuth.getUid()).child("Stories").child(strTitle).child("wrong words").setValue(wrongToDB);
+            }
         } else {
             Toast.makeText(SpeechToStoryActivity.this, "Please Read Story First", Toast.LENGTH_LONG).show();
         }
     }
 
     private void getStoryFromDatabase() {
-        mDatabase.child("Stories").child(strTitle).child("story").addValueEventListener(new ValueEventListener() {
+        mDatabase.child("Stories").child(strTitle).child("story").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 strStory = dataSnapshot.getValue().toString();
@@ -172,11 +170,8 @@ public class SpeechToStoryActivity extends AppCompatActivity {
 
             @Override
             public void onResults(Bundle results) {
-                String userTalk = "";
                 ArrayList<String> data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-                for (int i = 0; i < data.size(); i++) {
-                    userTalk += data.get(i);
-                }
+                String userTalk = data.get(0);
                 System.out.println(userTalk);
                 micButton.setImageResource(R.drawable.no_sound);
                 userTalks = userTalk.split(" ");
@@ -217,15 +212,11 @@ public class SpeechToStoryActivity extends AppCompatActivity {
                 System.out.println(wrongWords.get(i));
                 wrongToDB += wrongWords.get(i) + ",";
             }
-            mDatabase.child("Users").child(mAuth.getUid()).child("Stories").child(strTitle).child("wrong words").setValue(wrongToDB);
         }
         final DecimalFormat df = new DecimalFormat("0.00");
-        userScore = (((double) splitStory.length - (double) wrongWords.size()) / ((double) splitStory.length));
-        userScore = Double.valueOf(df.format(userScore));
+        userScore = 100.0 * (((double) splitStory.length - (double) wrongWords.size()) / ((double) splitStory.length));
+        userScore = Double.parseDouble(df.format(userScore));
         createNewDialog();
-     /*for (int i = 0; i < wrongWords.size(); i++) {
-            createNewDialog(wrongWords.get(i));
-        }*/
     }
 
     private void startTimer() {
@@ -312,6 +303,4 @@ public class SpeechToStoryActivity extends AppCompatActivity {
         }
         super.onPause();
     }
-
-
 }

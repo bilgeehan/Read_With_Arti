@@ -53,7 +53,7 @@ public class SearchActivity extends AppCompatActivity implements BottomNavigatio
 
 
 
-        mDatabase.child("Stories").addValueEventListener(new ValueEventListener() {
+        mDatabase.child("Stories").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot datasnapshot) {
                 for (DataSnapshot snapshot : datasnapshot.getChildren()) {

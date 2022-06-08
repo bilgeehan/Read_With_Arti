@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.o
     }
 
     private void getDataFromDatabase() {
-        myRef.child("Stories").addValueEventListener(new ValueEventListener() {
+        myRef.child("Stories").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 clearEverything();

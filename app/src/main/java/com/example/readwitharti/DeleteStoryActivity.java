@@ -43,7 +43,7 @@ public class DeleteStoryActivity extends AppCompatActivity {
         chosenPosition = 0;
         mAuth = FirebaseAuth.getInstance();
         list = (ListView) findViewById(R.id.listActivities);
-        mDatabase.child("Stories").addValueEventListener(new ValueEventListener() {
+        mDatabase.child("Stories").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot datasnapshot) {
                 if (datasnapshot.exists()) {

@@ -36,7 +36,7 @@ public class StoryActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         mDatabase.child("Stories").child("Ya Tutarsa")//burada main pageden intent çekilecek "ya tutarsa" yerine yazılacak
-                .addValueEventListener(new ValueEventListener() {
+                .addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 textStory.setText(String.valueOf(snapshot.getValue()));

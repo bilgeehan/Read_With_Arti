@@ -41,7 +41,7 @@ public class AdminEditStory extends AppCompatActivity {
         admintitle.setText(title);
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        mDatabase.child("Stories").child(title).child("story").addValueEventListener(new ValueEventListener() {
+        mDatabase.child("Stories").child(title).child("story").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {

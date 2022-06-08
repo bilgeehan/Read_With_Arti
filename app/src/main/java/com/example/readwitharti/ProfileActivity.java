@@ -23,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 public class ProfileActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -97,20 +98,23 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
     }
 
     private void takeStatisticsFromDatabase() {
-        mDatabase.child("Users").child(mAuth.getUid()).child("Stories").addValueEventListener(new ValueEventListener() {
+        System.out.println(mAuth.getUid());
+        mDatabase.child("Users").child(Objects.requireNonNull(mAuth.getUid())).child("Stories").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Statistics statistics = new Statistics();
-                    statistics.setScore(Double.parseDouble(snapshot.child("score").getValue().toString()));
-                    statistics.setTime(Integer.parseInt(snapshot.child("time").getValue().toString()));
-                    statistics.setTitle(snapshot.getKey());
-                    statisticsArrayList.add(statistics);
-                }
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Statistics statistics = new Statistics();
+                        statistics.setScore(Double.parseDouble(snapshot.child("score").getValue().toString()));
+                        statistics.setTime(Integer.parseInt(snapshot.child("time").getValue().toString()));
+                        statistics.setTitle(snapshot.getKey());
+                        statisticsArrayList.add(statistics);
+                    }
 //                System.out.println(statisticsArrayList.get(1).time);
-                statisticsAdapter = new StatisticsAdapter(getApplicationContext(), statisticsArrayList);
-                recyclerVieww.setAdapter(statisticsAdapter);
-                statisticsAdapter.notifyDataSetChanged();
+                    statisticsAdapter = new StatisticsAdapter(getApplicationContext(), statisticsArrayList);
+                    recyclerVieww.setAdapter(statisticsAdapter);
+                    statisticsAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override

@@ -34,6 +34,7 @@ public class AddStoryActivity extends AppCompatActivity {
     private Uri imageUrl;
     private FirebaseStorage storage;
     private StorageReference storageRef;
+    private String strStory;
 
     //  private StorageReference storageRef;
     private boolean isPhotoAdded;
@@ -55,34 +56,18 @@ public class AddStoryActivity extends AppCompatActivity {
 
     public void onClickAdd(View view) {
         strTitle = title.getText().toString();
-        String strStory = story.getText().toString();
+        strStory = story.getText().toString();
         if (strTitle.equals("") || strStory.equals("")) {
             Toast.makeText(AddStoryActivity.this, "Please Fill The Blanks", Toast.LENGTH_SHORT).show();
         } else {
-            mDatabase.child("Stories").child(strTitle).child("story").setValue(strStory);
-            mDatabase.child("Stories").child(strTitle).child("title").setValue(strTitle)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful() && isPhotoAdded) {
-                                uploadPicture();
-                            } else {
-                                Toast.makeText(AddStoryActivity.this, "!!ERROR!!", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+            if (isPhotoAdded) {
+                uploadPicture();
+            } else {
+                Toast.makeText(AddStoryActivity.this, "!!ERROR!!", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
-    private void writePicToDatabase() {
-        StorageReference imageRef = storageRef.child("storyImages/" + strTitle);
-        imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                mDatabase.child("Stories").child(strTitle).child("image").setValue(uri.toString());
-            }
-        });
-    }
 
     public void onClickAddPhoto(View view) {
         Intent intent = new Intent();
@@ -107,16 +92,21 @@ public class AddStoryActivity extends AppCompatActivity {
         final ProgressDialog progress = new ProgressDialog(AddStoryActivity.this);
         progress.setTitle("Image Uploading...");
         progress.show();
-
         //   String random = UUID.randomUUID().toString();
-        StorageReference riversRef = storageRef.child("storyImages/" + title.getText().toString());
-        riversRef.putFile(imageUrl).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+        storageRef.child("storyImages/" + title.getText().toString()).putFile(imageUrl).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                 if (task.isSuccessful()) {
-                    writePicToDatabase();
+                    StorageReference imageRef = storageRef.child("storyImages/" + strTitle);
+                    imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            mDatabase.child("Stories").child(strTitle).child("story").setValue(strStory);
+                            mDatabase.child("Stories").child(strTitle).child("title").setValue(strTitle);
+                            mDatabase.child("Stories").child(strTitle).child("image").setValue(uri.toString());
+                        }
+                    });
                     progress.dismiss();
-                    //     Snackbar.make(findViewById(android.R.id.content), "Story Uploaded", Snackbar.LENGTH_LONG).show();
                     Intent intent = new Intent(AddStoryActivity.this, AdminActivity.class);
                     Toast.makeText(AddStoryActivity.this, "Story Uploaded", Toast.LENGTH_SHORT).show();
                     startActivity(intent);

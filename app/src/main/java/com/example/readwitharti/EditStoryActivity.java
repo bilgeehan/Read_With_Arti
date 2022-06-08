@@ -43,7 +43,7 @@ public class EditStoryActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         list = (ListView) findViewById(R.id.listview3);
 
-        mDatabase.child("Stories").addValueEventListener(new ValueEventListener() {
+        mDatabase.child("Stories").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
