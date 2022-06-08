@@ -10,7 +10,9 @@ import android.os.SystemClock;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.speech.tts.TextToSpeech;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,9 +49,9 @@ public class SpeechToStoryActivity extends AppCompatActivity {
     private long totalTime;
     private boolean isRunning;
     private AlertDialog.Builder dialogBuilder;
-    private TextView viewScore;
-    private TextView viewTime;
     private AlertDialog dialog;
+    private TextToSpeech textToSpeech;
+    private String wrongToDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,9 +99,9 @@ public class SpeechToStoryActivity extends AppCompatActivity {
             mDatabase.child("Users").child(mAuth.getUid()).child("Stories").child(strTitle).child("time").setValue(totalTime);
             mDatabase.child("Users").child(mAuth.getUid()).child("Stories").child(strTitle).child("score").setValue(userScore);
             Toast.makeText(SpeechToStoryActivity.this, "Story Saved", Toast.LENGTH_SHORT).show();
-            Intent intent1 = new Intent(SpeechToStoryActivity.this, MainActivity.class);
+           /* Intent intent1 = new Intent(SpeechToStoryActivity.this, MainActivity.class);
             startActivity(intent1);
-            finish();
+            finish();*/
         } else {
             Toast.makeText(SpeechToStoryActivity.this, "Please Read Story First", Toast.LENGTH_LONG).show();
         }
@@ -210,7 +212,7 @@ public class SpeechToStoryActivity extends AppCompatActivity {
             }
         }
         if (!wrongWords.isEmpty()) {
-            String wrongToDB = "";
+            wrongToDB = "";
             for (int i = 0; i < wrongWords.size(); i++) {
                 System.out.println(wrongWords.get(i));
                 wrongToDB += wrongWords.get(i) + ",";
@@ -218,7 +220,7 @@ public class SpeechToStoryActivity extends AppCompatActivity {
             mDatabase.child("Users").child(mAuth.getUid()).child("Stories").child(strTitle).child("wrong words").setValue(wrongToDB);
         }
         final DecimalFormat df = new DecimalFormat("0.00");
-        userScore =  (((double) splitStory.length - (double) wrongWords.size()) / ((double) splitStory.length));
+        userScore = (((double) splitStory.length - (double) wrongWords.size()) / ((double) splitStory.length));
         userScore = Double.valueOf(df.format(userScore));
         createNewDialog();
      /*for (int i = 0; i < wrongWords.size(); i++) {
@@ -250,15 +252,18 @@ public class SpeechToStoryActivity extends AppCompatActivity {
     public void createNewDialog() {
         dialogBuilder = new AlertDialog.Builder(this);
         View popUp = getLayoutInflater().inflate(R.layout.popup, null);
-        viewScore = popUp.findViewById(R.id.textView16);
+        TextView viewScore = popUp.findViewById(R.id.textView16);
         viewScore.setText(String.valueOf(userScore));
-        viewTime = popUp.findViewById(R.id.textView28);
+        TextView viewTime = popUp.findViewById(R.id.textView28);
         viewTime.setText(String.valueOf(totalTime));
-        ImageView savee = popUp.findViewById(R.id.imageView37);
-
+        Button savee = popUp.findViewById(R.id.button14);
+        Button listenAll = popUp.findViewById(R.id.button12);
+        Button listenWrongs = popUp.findViewById(R.id.button13);
+        ImageView back = popUp.findViewById(R.id.imageView32);
         dialogBuilder.setView(popUp);
         dialog = dialogBuilder.create();
         dialog.show();
+
         savee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -266,5 +271,47 @@ public class SpeechToStoryActivity extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
+        listenAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                textToSpeech(strStory);
+            }
+        });
+        listenWrongs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                textToSpeech(wrongToDB);
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
+
+    public void textToSpeech(String word) {
+        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status != TextToSpeech.ERROR) {
+                    textToSpeech.setLanguage(Locale.getDefault());
+                    textToSpeech.setSpeechRate(0.7f);
+                    textToSpeech.speak(word, TextToSpeech.QUEUE_FLUSH, null);
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onPause() {
+        if (textToSpeech != null) {
+            textToSpeech.stop();
+            textToSpeech.shutdown();
+        }
+        super.onPause();
+    }
+
+
 }
