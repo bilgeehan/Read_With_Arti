@@ -83,7 +83,7 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 date = dataSnapshot.getValue().toString();
-                String arr[] = date.split("/");
+                String[] arr = date.split("/");
                 //System.out.println(arr[2]);
                 int yearr = Integer.parseInt(arr[2]);
                 textDate.setText(String.valueOf(currentYear - yearr));

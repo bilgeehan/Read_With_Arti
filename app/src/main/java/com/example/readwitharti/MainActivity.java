@@ -13,6 +13,7 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,7 +27,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.o
     private RecyclerView recyclerView;
     private DatabaseReference myRef;
     private ArrayList<Story> stories;
+    private FirebaseAuth mAuth;
     private RecyclerAdapter recyclerAdapter;
+   // private boolean isStoryReaded;
 
 
     @Override
@@ -41,7 +44,13 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.o
         stories = new ArrayList<>();
         clearEverything();
         getDataFromDatabase();
-
+        mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getUid() == null) {
+            Toast.makeText(MainActivity.this, "Please Login First", Toast.LENGTH_LONG).show();
+            Intent intentt = new Intent(this, WelcomeActivity.class);
+            startActivity(intentt);
+            finish();
+        }
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener((BottomNavigationView.OnNavigationItemSelectedListener) MainActivity.this);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
@@ -73,6 +82,24 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.o
                 Toast.makeText(MainActivity.this, "!Error! Try again later", Toast.LENGTH_LONG).show();
             }
         });
+     //   try {
+           /* myRef.child("Users").child(mAuth.getUid()).child("Stories").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        isStoryReaded = true;
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    System.out.println(error);
+                }
+            });*/
+      /*  } catch (Exception e) {
+            System.out.println(e.toString());
+            isStoryReaded = false;
+        }*/
     }
 
     private void clearEverything() {
@@ -106,9 +133,12 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.o
                 break;
             }
             case R.id.navigation_profile: {
-                startActivity(new Intent(this, ProfileActivity.class));
+              //  if (isStoryReaded) {
+                    startActivity(new Intent(this, ProfileActivity.class));
+             //   } else {
+                    Toast.makeText(MainActivity.this, "Please Read Story First", Toast.LENGTH_SHORT).show();
+             //   }
                 break;
-
             }
         }
         return false;
