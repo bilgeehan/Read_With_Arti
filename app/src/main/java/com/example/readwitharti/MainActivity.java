@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.o
               //  if (isStoryReaded) {
                     startActivity(new Intent(this, ProfileActivity.class));
              //   } else {
-                    Toast.makeText(MainActivity.this, "Please Read Story First", Toast.LENGTH_SHORT).show();
+            //        Toast.makeText(MainActivity.this, "Please Read Story First", Toast.LENGTH_SHORT).show();
              //   }
                 break;
             }

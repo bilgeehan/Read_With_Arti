@@ -93,7 +93,7 @@ public class SignUpActivity extends AppCompatActivity {
                                             mDatabase.child("Users").child(mAuth.getUid()).child("name").setValue(stringName);
                                             mDatabase.child("Users").child(mAuth.getUid()).child("date").setValue(stringDate);
                                             mDatabase.child("Users").child(mAuth.getUid()).child("mail").setValue(stringEmail);
-
+                                            mDatabase.child("Users").child(mAuth.getUid()).child("isStoryRead").setValue(false);
                                             Toast.makeText(SignUpActivity.this, "User successfully created", Toast.LENGTH_SHORT).show();
                                             Intent registerIntent = new Intent(SignUpActivity.this, LoginActivity.class);
                                             startActivity(registerIntent);

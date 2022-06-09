@@ -97,6 +97,7 @@ public class SpeechToStoryActivity extends AppCompatActivity {
             mDatabase.child("Users").child(mAuth.getUid()).child("Stories").child(strTitle).child("time").setValue(totalTime);
             mDatabase.child("Users").child(mAuth.getUid()).child("Stories").child(strTitle).child("score").setValue(userScore);
             Toast.makeText(SpeechToStoryActivity.this, "Story Saved", Toast.LENGTH_SHORT).show();
+            mDatabase.child("Users").child(mAuth.getUid()).child("isStoryRead").setValue(true);
             if (!wrongWords.isEmpty()) {
                 mDatabase.child("Users").child(mAuth.getUid()).child("Stories").child(strTitle).child("wrong words").setValue(wrongToDB);
             }

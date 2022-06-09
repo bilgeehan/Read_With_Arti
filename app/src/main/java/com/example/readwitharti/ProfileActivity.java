@@ -37,6 +37,7 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
     private TextView textName;
     private TextView textDate;
     private final int currentYear = 2022;
+    private Boolean isStoryRead;
 
 
     @Override
@@ -53,6 +54,30 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
         recyclerVieww.setHasFixedSize(true);
         statisticsArrayList = new ArrayList<>();
 
+
+        if (mAuth.getUid() == null) {
+            Toast.makeText(ProfileActivity.this, "Please Login First", Toast.LENGTH_LONG).show();
+            Intent intentt = new Intent(this, WelcomeActivity.class);
+            startActivity(intentt);
+            finish();
+        }
+        mDatabase.child("Users").child(mAuth.getUid()).child("isStoryRead").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                isStoryRead = Boolean.valueOf(String.valueOf(snapshot.getValue()));
+                if (isStoryRead) {
+                    takeStatisticsFromDatabase();
+                    takeUserInformation();
+                } else {
+                    Toast.makeText(ProfileActivity.this, "Please Read Story To See Statistiscs", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(ProfileActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener((BottomNavigationView.OnNavigationItemSelectedListener) ProfileActivity.this);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
@@ -61,16 +86,13 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
         // NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main2);
         navView.setOnNavigationItemSelectedListener((BottomNavigationView.OnNavigationItemSelectedListener) this);
 
-        takeStatisticsFromDatabase();
-        takeUserInformation();
-
     }
 
     private void takeUserInformation() {
         mDatabase.child("Users").child(mAuth.getUid()).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                name = dataSnapshot.getValue().toString();
+                name = String.valueOf(dataSnapshot.getValue());
                 textName.setText(name);
             }
 
@@ -82,12 +104,11 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
         mDatabase.child("Users").child(mAuth.getUid()).child("date").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                date = dataSnapshot.getValue().toString();
+                date = String.valueOf(dataSnapshot.getValue());
                 String[] arr = date.split("/");
                 //System.out.println(arr[2]);
                 int yearr = Integer.parseInt(arr[2]);
                 textDate.setText(String.valueOf(currentYear - yearr));
-
             }
 
             @Override
@@ -99,7 +120,7 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
 
     private void takeStatisticsFromDatabase() {
         System.out.println(mAuth.getUid());
-        mDatabase.child("Users").child(Objects.requireNonNull(mAuth.getUid())).child("Stories").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("Users").child(mAuth.getUid()).child("Stories").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
