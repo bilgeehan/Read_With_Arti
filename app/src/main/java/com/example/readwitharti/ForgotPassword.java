@@ -3,6 +3,7 @@ package com.example.readwitharti;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -34,6 +35,8 @@ public class ForgotPassword extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
                         Toast.makeText(ForgotPassword.this, "Password reset email has been sent", Toast.LENGTH_LONG).show();
+                        Intent intent=new Intent(ForgotPassword.this,WelcomeActivity.class);
+                        startActivity(intent);
                     } else {
                         Toast.makeText(ForgotPassword.this, "!Error! Try again later", Toast.LENGTH_LONG).show();
                     }

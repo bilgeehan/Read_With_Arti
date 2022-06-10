@@ -26,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class SearchActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
+public class SearchActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     private SearchView searchView;
     private DatabaseReference mDatabase;
     private ArrayList<String> titles;
@@ -48,16 +48,16 @@ public class SearchActivity extends AppCompatActivity implements BottomNavigatio
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_search, R.id.navigation_profile)
                 .build();
-       // NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main2);
+        // NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main2);
         navView.setOnNavigationItemSelectedListener((BottomNavigationView.OnNavigationItemSelectedListener) this);
-
 
 
         mDatabase.child("Stories").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot datasnapshot) {
                 for (DataSnapshot snapshot : datasnapshot.getChildren()) {
-                    titles.add(String.valueOf(snapshot.getKey()));
+                    String temp = String.valueOf(snapshot.getKey());
+                    titles.add(temp.toLowerCase());
                 }
                 adapter = new ArrayAdapter<String>(SearchActivity.this,
                         android.R.layout.simple_list_item_1, android.R.id.text1, titles);
@@ -107,16 +107,16 @@ public class SearchActivity extends AppCompatActivity implements BottomNavigatio
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.navigation_home:{
+        switch (item.getItemId()) {
+            case R.id.navigation_home: {
                 startActivity(new Intent(this, MainActivity.class));
                 break;
             }
-            case R.id.navigation_search:{
-              //  startActivity(new Intent(this, SearchActivity.class));
+            case R.id.navigation_search: {
+                //  startActivity(new Intent(this, SearchActivity.class));
                 break;
             }
-            case R.id.navigation_profile:{
+            case R.id.navigation_profile: {
                 startActivity(new Intent(this, ProfileActivity.class));
                 break;
 
