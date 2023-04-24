@@ -1,6 +1,6 @@
 # Read With Arti
 
-Read With Arti is a mobile application for users to improve their speaking and reading. I developed this mobile application using Java and Firebase. As the user reads the story, the application listens to the user and compares them with the story. Then the user listens to the correct pronunciation of the words and has the opportunity to improve his speech.
+Read With Arti is a mobile application for improving speaking and reading skills of users. I developed this mobile application using Java and Firebase. I used NLP and Artificial Intelligence algorithms in my application. The application listens to the user while the user reads the story. Converts the user's speech to string data using Speech-To-Text libraries. Algorithms tokenize the data and compare it to the story. Wrong words are converted to speech using Text-To-Speech libraries
 
 
 
