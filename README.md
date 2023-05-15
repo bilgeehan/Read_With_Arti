@@ -4,8 +4,8 @@ Read With Arti is a mobile application for improving speaking and reading skills
 
 
 
-[Click for Requirements Analysis Document](https://drive.google.com/file/d/1_w_xO3lqS639Nu5BEDLj0sPBFuHQZ84p/view?usp=sharing)
+[Click for Requirements Analysis Document](https://www.researchgate.net/publication/370769464_Requirements_Analysis_Document_of_Read_With_Arti)
 
-[Click for System Design Document](https://drive.google.com/file/d/1Fta6bShCjT7P8HwrThq3GAGM49JZQJNJ/view?usp=sharing)
+[Click for System Design Document](https://www.researchgate.net/publication/370769480_System_Design_Document_of_Read_With_Arti)
 
-[Click for Bachelor’s Thesis Document](https://drive.google.com/file/d/1bqgs9VdKozyZBWSvjBMzuIHM5qzQPPLw/view?usp=sharing)
+[Click for Bachelor’s Thesis Document](https://www.researchgate.net/publication/370766715_Thesis_of_Read_With_Arti)
