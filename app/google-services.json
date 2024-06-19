@@ -1,36 +1,26 @@
 {
   "project_info": {
-    "project_number": "427147285521",
-    "project_id": "read-with-artii",
-    "storage_bucket": "read-with-artii.appspot.com"
+    "project_number": "683963696522",
+    "project_id": "readwitharti-1f5c0",
+    "storage_bucket": "readwitharti-1f5c0.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:427147285521:android:53cd77ab1e7ccfca114db0",
+        "mobilesdk_app_id": "1:683963696522:android:ee41e461c5831dca403473",
         "android_client_info": {
           "package_name": "com.example.readwitharti"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "427147285521-qrdqc810sb396r3kp543o8tgo9hffa8e.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBwj7nZ_UsvCJVf7sNBtyjF526EAtpNXEM"
+          "current_key": "AIzaSyDrT3yA86Ti1OxH-bCGscSYFzC6D9SkRLk"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "427147285521-qrdqc810sb396r3kp543o8tgo9hffa8e.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
