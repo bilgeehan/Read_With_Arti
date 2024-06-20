@@ -28,9 +28,9 @@
               <option name="connection">
                 <ConnectionSetting>
                   <option name="appId" value="com.example.readwitharti" />
-                  <option name="mobileSdkAppId" value="1:427147285521:android:53cd77ab1e7ccfca114db0" />
-                  <option name="projectId" value="read-with-artii" />
-                  <option name="projectNumber" value="427147285521" />
+                  <option name="mobileSdkAppId" value="1:683963696522:android:ee41e461c5831dca403473" />
+                  <option name="projectId" value="readwitharti-1f5c0" />
+                  <option name="projectNumber" value="683963696522" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
