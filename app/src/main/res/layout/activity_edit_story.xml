@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DF8ED9"
-    android:backgroundTint="#DF8ED9"
-    tools:context=".EditStoryActivity" >
+    android:background="#000000"
+    android:backgroundTint="#000000"
+    tools:context=".EditStoryActivity">
 
     <ImageView
         android:id="@+id/imageView15"
@@ -41,11 +41,12 @@
         android:id="@+id/imageView18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="504dp"
+        android:layout_marginBottom="528dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView15"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/readwithartiblack" />
+        app:srcCompat="@drawable/logo" />
 
     <TextView
         android:id="@+id/textView12"

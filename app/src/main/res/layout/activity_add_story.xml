@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DF8ED9"
+    android:background="#000000"
     tools:context=".AddStoryActivity">
 
     <ImageView
@@ -16,19 +16,19 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.97"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/screen_curved" />
 
     <ImageView
         android:id="@+id/imageView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="520dp"
+        android:layout_marginBottom="536dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.471"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/readwithartiblack" />
+        app:srcCompat="@drawable/logo" />
 
     <TextView
         android:id="@+id/textView10"

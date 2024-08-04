@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DF8ED9"
+    android:background="#B5ABB4"
     tools:context=".AdminActivity">
 
     <Button
@@ -51,12 +51,13 @@
 
     <ImageView
         android:id="@+id/imageView11"
-        android:layout_width="505dp"
-        android:layout_height="492dp"
-        android:layout_marginBottom="236dp"
+        android:layout_width="407dp"
+        android:layout_height="594dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/logo" />
 
     <TextView
